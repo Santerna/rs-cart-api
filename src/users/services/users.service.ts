@@ -2,15 +2,19 @@ import { Injectable } from '@nestjs/common';
 
 import { v4 } from 'uuid';
 
-import { User } from '../models';
+// import { User } from '../models';
+import { User } from '../../database/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private readonly users: Record<string, User>;
+  constructor(
+    @InjectRepository(User)
+   private readonly users: Repository<User>
+  ) {}
 
-  constructor() {
-    this.users = {}
-  }
+  // private readonly users: Record<string, User>;
 
   findOne(userId: string): User {
     return this.users[ userId ];
@@ -24,5 +28,4 @@ export class UsersService {
 
     return newUser;
   }
-
 }
