@@ -14,7 +14,7 @@ import { User } from './entities/user.entity';
       port: +process.env.DATABASE_PORT,
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
-      database: process.env.CART_DATABASE_NAME,
+      database: process.env.DATABASE_NAME,
       entities: ['dist/database/entities/*.entity{.ts,.js}'],
       /**
        * Flag to show all generated sql queries on each interaction with DB.
