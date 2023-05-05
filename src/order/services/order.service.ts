@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { v4 } from 'uuid';
-
-// import { Order } from '../models';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
+// import { Order } from '../models';
 import { Order } from '../../database/entities/order.entity';
 
 @Injectable()
@@ -19,7 +18,7 @@ export class OrderService {
   }
 
   create(data: any) {
-    const id = v4(v4())
+    const id = uuidv4();
     const order = {
       ...data,
       id,

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-
-import { v4 } from 'uuid';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { v4 as uuidv4 } from 'uuid';
 
 // import { Cart } from '../models';
-import { InjectRepository } from '@nestjs/typeorm';
+
 import { Cart } from '../../database/entities/carts.entity';
-import { Repository } from 'typeorm';
+
 
 @Injectable()
 export class CartService {
@@ -20,7 +21,7 @@ export class CartService {
   }
 
   createByUserId(userId: string) {
-    const id = v4(v4());
+    const id = uuidv4();
     const userCart = {
       id,
       items: [],
