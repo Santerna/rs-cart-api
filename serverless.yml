@@ -1,0 +1,33 @@
+service: rs-cart-api
+
+frameworkVersion: '3'
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-central-1
+
+environment:
+  PG_HOST: ${env:DATABASE_HOST}
+  PG_PORT: ${env:DATABASE_PORT}
+  PG_DATABASE: ${env:DATABASE_NAME}
+  PG_USERNAME: ${env:DATABASE_USERNAME}
+  PG_PASSWORD: ${env:DATABASE_PASSWORD}
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+
