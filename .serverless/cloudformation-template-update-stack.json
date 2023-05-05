@@ -74,7 +74,7 @@
     "MainLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/serverless-example-dev-main"
+        "LogGroupName": "/aws/lambda/rs-cart-api-dev-main"
       }
     },
     "IamRoleLambdaExecution": {
@@ -102,7 +102,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "serverless-example",
+                  "rs-cart-api",
                   "dev",
                   "lambda"
                 ]
@@ -115,12 +115,11 @@
                   "Effect": "Allow",
                   "Action": [
                     "logs:CreateLogStream",
-                    "logs:CreateLogGroup",
-                    "logs:TagResource"
+                    "logs:CreateLogGroup"
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-example-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/rs-cart-api-dev*:*"
                     }
                   ]
                 },
@@ -131,7 +130,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/serverless-example-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/rs-cart-api-dev*:*:*"
                     }
                   ]
                 }
@@ -144,7 +143,7 @@
           "Fn::Join": [
             "-",
             [
-              "serverless-example",
+              "rs-cart-api",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -162,13 +161,24 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-example/dev/1682967709032-2023-05-01T19:01:49.032Z/serverless-example.zip"
+          "S3Key": "serverless/rs-cart-api/dev/1683270734365-2023-05-05T07:12:14.365Z/rs-cart-api.zip"
         },
         "Handler": "dist/main.handler",
         "Runtime": "nodejs16.x",
-        "FunctionName": "serverless-example-dev-main",
+        "FunctionName": "rs-cart-api-dev-main",
         "MemorySize": 1024,
         "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "DATABASE_HOST": "rds-serverless-instance.cubuyctfygmm.eu-central-1.rds.amazonaws.com",
+            "DATABASE_PORT": "5432",
+            "DATABASE_USERNAME": "postgres",
+            "DATABASE_PASSWORD": "KbLB7GI52RRdVCtO9O2T",
+            "CART_DATABASE_NAME": "carts",
+            "CART_ITEMS_DATABASE_NAME": "cart_items",
+            "ORDERS_DATABASE_NAME": "orders"
+          }
+        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -180,20 +190,20 @@
         "MainLogGroup"
       ]
     },
-    "MainLambdaVersionlNjIjYeXPW6EdRGuZne18dEf6rFWgXLEjWfCKZHIc": {
+    "MainLambdaVersionMUhzHjdMyorYOcyfrG9xYQ6SlsHj806g9FYw7mQco": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "MainLambdaFunction"
         },
-        "CodeSha256": "S7eFRwM+g8qMOtPEZ5oOMNxSiyHfVoxzsEjsMWPseJQ="
+        "CodeSha256": "WbehqLruODLB0iFk87bjVXjg+3r8IPRjEF6qzCzy7Eg="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-serverless-example",
+        "Name": "dev-rs-cart-api",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -312,7 +322,7 @@
         "MainLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1682967639739": {
+    "ApiGatewayDeployment1683270640948": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -369,16 +379,16 @@
         "Ref": "ServerlessDeploymentBucket"
       },
       "Export": {
-        "Name": "sls-serverless-example-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-rs-cart-api-dev-ServerlessDeploymentBucketName"
       }
     },
     "MainLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "MainLambdaVersionlNjIjYeXPW6EdRGuZne18dEf6rFWgXLEjWfCKZHIc"
+        "Ref": "MainLambdaVersionMUhzHjdMyorYOcyfrG9xYQ6SlsHj806g9FYw7mQco"
       },
       "Export": {
-        "Name": "sls-serverless-example-dev-MainLambdaFunctionQualifiedArn"
+        "Name": "sls-rs-cart-api-dev-MainLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {
@@ -404,7 +414,7 @@
         ]
       },
       "Export": {
-        "Name": "sls-serverless-example-dev-ServiceEndpoint"
+        "Name": "sls-rs-cart-api-dev-ServiceEndpoint"
       }
     }
   }
