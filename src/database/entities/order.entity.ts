@@ -3,17 +3,22 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Cart } from './carts.entity';
+import { CartItem } from './cartItem.entity';
 
+export enum OrderFormat {
+
+}
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'uuid', nullable: false })
-  user_id: string;
+  userId: string;
 
   @Column({ type: 'json', nullable: false })
   payment: Record<string, unknown>;
@@ -22,9 +27,9 @@ export class Order {
   delivery: Record<string, unknown>
 
   @Column({ type: 'text', nullable: true})
-  comment: string
+  comments: string
 
-  @Column({ type: 'enum', nullable: false})
+  @Column({ type: 'text', nullable: false})
   status: string;
 
   @Column({ type: 'integer', nullable: false})
@@ -33,4 +38,8 @@ export class Order {
   @ManyToOne(() => Cart, (cart) => cart.id)
   @JoinColumn({ name: 'cart_id'})
   cart_id: Cart;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem)
+  @JoinColumn({ name: 'id', referencedColumnName: 'store_id' })
+  items: CartItem[];
 }
