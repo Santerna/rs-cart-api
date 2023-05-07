@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from './product.entity';
+import { Cart } from './carts.entity';
 
 @Entity()
 export class CartItem {
@@ -18,4 +19,8 @@ export class CartItem {
   @ManyToOne(() => Product, (product) => product.id)
   @JoinColumn({ name: 'id'})
   product: Product;
+
+  @ManyToOne(() => Cart, (cart) => cart.id)
+  @JoinColumn({ name: 'id'})
+  cart: Cart['id'];
 }

@@ -15,16 +15,20 @@ export class UsersService {
 
   // private readonly users: Record<string, User>;
 
-  findOne(userId: string): User {
-    return this.users[ userId ];
+  async findOne(userId: string): Promise<User> {
+    return await this.users.findOneBy({ id: userId });
   }
 
-  createOne({ name, password }: User): User {
-    const id = uuidv4();
-    const newUser = { id: name || id, name, password };
+  async createOne({ name, password }: User): Promise<User> {
+    try {
+      const id = uuidv4();
+      const newUser = { id: name || id, name, password };
+  
+      await this.users.insert(newUser);
 
-    this.users[ id ] = newUser;
-
-    return newUser;
+      return newUser;
+    } catch (error) {
+      return error;
+    }
   }
 }

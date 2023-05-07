@@ -37,7 +37,7 @@ export class Order {
 
   @ManyToOne(() => Cart, (cart) => cart.id)
   @JoinColumn({ name: 'cart_id'})
-  cart_id: Cart;
+  cart_id: Cart['id'];
 
   @OneToMany(() => CartItem, (cartItem) => cartItem)
   @JoinColumn({ name: 'id', referencedColumnName: 'store_id' })
